@@ -6,16 +6,19 @@ from renderer import on_page_black
 from builder import build_problem
 import master_sections as ms
 import data_problems
+import data_extra
 from data_supplement import SUPPLEMENT
 
 
 def main():
-    problems = data_problems.PROBLEMS
-    for p in problems:
+    playlist_problems = data_problems.PROBLEMS
+    for p in playlist_problems:
         extra = SUPPLEMENT.get(p["title"])
         if extra is None:
             raise KeyError(f'No 9-step supplement fields for "{p["title"]}"')
         p.update(extra)
+
+    problems = playlist_problems + data_extra.PROBLEMS
 
     doc = BaseDocTemplate(
         "amazon_sde1_interview_guide.pdf",

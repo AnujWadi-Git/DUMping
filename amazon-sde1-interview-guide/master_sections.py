@@ -15,15 +15,17 @@ def cover_page():
     flow.append(Spacer(1, 10))
     flow.append(HRFlowable(width="55%", thickness=1.5, color=ORANGE, spaceAfter=14))
     flow.append(Paragraph(
-        "27 problems from your playlist. One page each. Brute force code AND optimal code, side by side.",
+        "73 problems: the 27 from your playlist, plus the 46 from the original list before the playlist "
+        "link was shared. One page each. Brute force code AND optimal code, side by side.",
         S_COVER_SUB))
     flow.append(Spacer(1, 24))
     flow.append(Paragraph(
-        "<b>A note on video transcripts:</b> this session's network policy blocks youtube.com, so no "
-        "transcripts could be pulled from the linked playlist. Every explanation below is written from "
-        "general algorithmic knowledge, not transcribed from any video — see the per-problem note under "
-        "each title. To get real transcripts pulled in, enable broader network access (or allowlist "
-        "youtube.com) in this environment's settings and re-run.",
+        "<b>A note on video transcripts:</b> this session's network policy blocks youtube.com, and Claude "
+        "in Chrome isn't connected in this cloud session either, so no transcripts could be pulled from the "
+        "linked playlist. Every explanation below is written from general algorithmic knowledge, not "
+        "transcribed from any video — see the per-problem note under each title, and the Sources page "
+        "at the end. The 46 problems from the original (pre-playlist) list have no associated video at "
+        "all, and their notes say so plainly.",
         S_SMALL))
     flow.append(PageBreak())
     return flow
@@ -105,13 +107,21 @@ def sources_page(problems):
     flow.append(h("Primary source"))
     flow.append(body(
         "The playlist at youtube.com/playlist?list=PL_6hP3Z1GQqYrrF1flETaEpkLAX6M8E7j was provided. "
-        "This session's network policy blocks youtube.com, so none of its videos could be fetched or "
-        "transcribed. No quotes in this guide are attributed to, or copied from, any video transcript."))
+        "This session's network policy blocks youtube.com, and Claude in Chrome is not connected in this "
+        "cloud session, so none of its videos could be fetched or transcribed. No quotes in this guide are "
+        "attributed to, or copied from, any video transcript."))
     flow.append(h("Supporting sources"))
     flow.append(body(
         "LeetCode problem statements (for exact constraints/return formats) and general, widely-known "
         "algorithmic technique names and explanations, written independently."))
+    flow.append(h("On the 46 non-playlist problems"))
+    flow.append(body(
+        "46 of the 73 problems in this guide (marked with 'Not in the linked YouTube playlist' under "
+        "their title) come from the original problem list you gave before the playlist link was shared. "
+        "They have no associated video at all — not just an untranscribed one."))
     flow.append(h("Videos named in the provided playlist (titles/channels, not transcribed)"))
     for p in problems:
-        flow.append(small(p["video_note"].split(". Transcript")[0].replace("Video: ", "• ")))
+        note = p["video_note"]
+        if note.startswith("Video: "):
+            flow.append(small(note.split(". Transcript")[0].replace("Video: ", "• ")))
     return flow
